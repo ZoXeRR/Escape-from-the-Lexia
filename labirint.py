@@ -3,6 +3,7 @@ from time import sleep
 window_width = 700
 window_height = 500
 background = (0, 0, 100)
+winbackground = (0,0,0)
 run = True
 scrtlvl = 0
 restart = False
@@ -11,15 +12,30 @@ level = 1
 not_ended = True
 mixer.init()
 font.init()
+winfont = font.SysFont('Arial', 20)
 font = font.SysFont('Arial', 40)
 mixer.music.load('scream.mp3')
+suzhetka = font.render('ВЫ НАШЛИ ОТВЕТЫ!', True, (255, 255, 255))
+nosuzhetka = font.render('НО НЕ НАШЛИ ОТВЕТЫ...', True, (255,0,0))
+suzhetkahint1 = winfont.render('Чтобы начать, читать нажмите левую кнопку мыши', True, (255,255,255))
+suzhet1 = winfont.render('Наша история начинается в далёком 1390 году...', True, (255,255,255))
+suzhet2 = winfont.render('Рождается маленький, казалось бы, ничем непримечательный мальчик по ', True, (255,255,255))
+suzhet3 = winfont.render('имени Саша. Но от всех детей он отличался своим умом. Он был рождён', True, (255,255,255))
+suzhet4 = winfont.render('гением алхимии. В возрасте 15 лет он смог найти сочетания трав, которые ', True, (255,255,255))
+suzhet5 = winfont.render('позволили ему быть бессмертным и вечно молодым. И так прожил наш ге', True, (255,255,255))
+suzhet6 = winfont.render('рой до 2024 года. Много он повидал и бед, и счастья на земле. Но одна', True, (255,255,255))
+suzhet7 = winfont.render('жды появился ужасный Алексей Н. Он был вечнo голодным и постоянно', True, (255,255,255))
+suzhet8 = winfont.render('воровал детей.Алексей обладал волшебным подвалом, который подав', True, (255,255,255))
+suzhet9 = winfont.render('лял всю магическую энергетику внутри себя. И однажды к нему в руки по',True, (255,255,255))
+suzhet10 = winfont.render('пал Саша, оказавшийся без своего бессмертия.', True, (255,255,255))
+suzhet11 = winfont.render('Теперь ему необходимо сбежать от Алексея и не попасться ему.', True, (255,255,255))
 lose = font.render('ВЫ НЕ СМОГЛИ СБЕЖАТЬ...', True, (255,0,0))
 scrtlvlwin = font.render('ВЫ ПРОШЛИ!', True, (0,255,0))
 scrtlvllose = font.render('ПОПРОБУЙТЕ ПОЗЖЕ', True, (255,0,0))
 winimg = transform.scale(image.load('podval.jpg'), (700,500))
 lehasm = transform.scale(image.load('leha.png'), (1200, 800))
 playerimg = transform.scale(image.load('sanya.png'), (100, 100))
-win = font.render('ВЫ СБЕЖАЛИ', True, (0,255,0))
+win = font.render('ВЫ СБЕЖАЛИ!', True, (0,255,0))
 window = display.set_mode((window_width, window_height))
 display.set_caption('Escape from Lexia')
 timer = time.Clock()
@@ -32,7 +48,42 @@ class Gamesprite(sprite.Sprite):
         self.rect.y = y
     def reset(self):
         window.blit(self.image,(self.rect.x, self.rect.y))
+    def restart(self):
+        self.rect.y = 25
+        self.rect.x = 135
 
+def resetgame():
+    lvl = 1
+    scrtlvl = 0
+    suzhet = 0
+    Player.rect.x = 50
+    Player.rect.y = 450
+    Enemy.rect.x = 500
+    Enemy.rect.y = 300
+    not_ended = True
+
+def suzhetproiden():
+    window.blit(suzhet1, (10, 10))
+
+    window.blit(suzhet2, (10, 30))
+
+    window.blit(suzhet3, (10, 50))
+
+    window.blit(suzhet4, (10, 70))
+
+    window.blit(suzhet5, (10, 90))
+
+    window.blit(suzhet6, (10, 110))
+
+    window.blit(suzhet7, (10, 130))
+
+    window.blit(suzhet8, (10, 150))
+
+    window.blit(suzhet9, (10, 170))
+
+    window.blit(suzhet10, (10, 190))
+
+    window.blit(suzhet11, (10,210))
 
 class player(Gamesprite):
     def __init__(self, picture, w, h, x, y, xspeed, yspeed):
@@ -42,7 +93,10 @@ class player(Gamesprite):
     def update(self):
         self.rect.x += self.xspeed
         self.rect.y += self.yspeed
-zapiska1 = Gamesprite('zapiska.png', 50, 50, 135, 25 )
+    def restart(self):
+        self.rect.y = 450
+        self.rect.x = 50
+zapiska1 = Gamesprite('zapiska.png', 50, 50, 115, 25)
 Player = player('sanya.png', 40, 40, 50, 450, 0, 0)
 door1 = Gamesprite('door.png', 40, 40, 480, 380)
 wall1 = Gamesprite('backgr.jpg', 200, 20, 150, 250)
@@ -65,7 +119,7 @@ wall15 = Gamesprite('backgr.jpg', 400, 20, 350, 200)
 wall16 = Gamesprite('backgr.jpg', 20, 80, 250, 140)
 wall17 = Gamesprite('backgr.jpg', 270, 20, 0, 200)
 wall18 = Gamesprite('backgr.jpg', 600, 20, 0, 380)
-wall19 = Gamesprite('backgr.jpg', 20, 100, 100, 460)
+wall19 = Gamesprite('backgr.jpg', 20, 100, 100, 480)
 wall20 = Gamesprite('backgr.jpg', 20, 60, 200, 400)
 wall21 = Gamesprite('backgr.jpg', 20, 60, 280, 440)
 wall22 = Gamesprite('backgr.jpg', 20, 60, 360, 400)
@@ -89,8 +143,8 @@ scrtwall13 = Gamesprite('backgr.jpg', 383, 8, 165, 304)
 scrtwall14 = Gamesprite('backgr.jpg', 14, 303, 165, 0)
 scrtwall15 = Gamesprite('backgr.jpg', 17, 350, 104, 0)
 while run:
-    window.fill(background)
-    time.delay(50)
+    
+    time.delay(30)
     for e in event.get():
         if e.type == QUIT:
             run = False
@@ -111,6 +165,8 @@ while run:
                 Player.xspeed = 5
                 Player2.xspeed = 5
                 scrtplayer1.xspeed = 5
+            elif e.key == K_r:
+                resetgame()
         elif e.type == KEYUP:
             if e.key == K_UP or e.key == K_w:
                 Player.yspeed = 0
@@ -128,23 +184,14 @@ while run:
                 Player.xspeed = 0
                 Player2.xspeed = 0
                 scrtplayer1.xspeed = 0
-    if not_ended != False:    
-        if restart == True:
-            level = 1
-            scrtlvl = 0
-            Player.rect.x = 50
-            Player.rect.y = 450
-            Player2.rect.x = 20
-            Player2.rect.y = 15
-            scrtplayer1.rect.x = 350
-            scrtplayer1.rect.y = 245
-            sleep(5)
-            restart = False
 
-        if level == 1:  
-            
+    if not_ended != False:
+
+
+        if level == 1:
+
             window.fill(background)
-            time.delay(5)          
+            time.delay(5)
             Player.reset()
             Player.update()
             Enemy.reset()
@@ -154,20 +201,20 @@ while run:
             wall4.reset()
             wall5.reset()
             wall6.reset()
-            
+
             wall9.reset()
             wall8.reset()
             wall7.reset()
             wall1.reset()
             wall3.reset()
-            
-            
+
+
             if sprite.collide_rect(Player, Enemy):
                 not_ended = False
                 window.blit(lehasm,(-300,-300))
                 mixer.music.play(0)
                 window.blit(lose,(100,350))
-            
+
             elif sprite.collide_rect(Player, door1):
                 level = 2
             elif sprite.collide_rect(Player, wall1):
@@ -185,7 +232,7 @@ while run:
                 window.blit(lehasm,(-300,-300))
                 mixer.music.play(0)
                 window.blit(lose,(100,350))
-            
+
             elif sprite.collide_rect(Player, wall4):
                 not_ended = False
                 window.blit(lehasm,(-300,-300))
@@ -274,88 +321,125 @@ while run:
             elif scrtplayer1.rect.x == 800:
                 not_ended = False
                 window.blit(lose,(250,350))
+
             if sprite.collide_rect(scrtplayer1, zapiska1):
                 suzhet = 1
-                window.blit(scrtlvlwin,(250,350))
                 zapiska1.rect.x = 1000
-                time.delay(500)
                 scrtlvl = 0
+                suzhet = 1
                 level = 1
+                Player.restart()
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+
             elif sprite.collide_rect(scrtplayer1, scrtwall1):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                Player.restart()
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
             elif sprite.collide_rect(scrtplayer1, scrtwall2):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                Player.restart()
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
             elif sprite.collide_rect(scrtplayer1, scrtwall3):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall4):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall5):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                Player.restart()
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
             elif sprite.collide_rect(scrtplayer1, scrtwall6):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
+
                 scrtlvl = 0
                 level = 1
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall7):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
+
                 scrtlvl = 0
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
                 level = 1
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall8):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall9):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
                 level = 1
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall10):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall11):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
                 level = 1
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall12):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+                Player.restart()
             elif sprite.collide_rect(scrtplayer1, scrtwall13):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                Player.restart()
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
             elif sprite.collide_rect(scrtplayer1, scrtwall14):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                Player.restart()
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
             elif sprite.collide_rect(scrtplayer1, scrtwall15):
                 window.blit(scrtlvllose, (250, 350))
-                time.delay(500)
                 scrtlvl = 0
                 level = 1
+                Player.restart()
+                scrtplayer1.rect.x = 350
+                scrtplayer1.rect.y = 245
+
         if level == 2:
             window.fill(background)
             time.delay(5)
@@ -383,12 +467,55 @@ while run:
                 window.blit(lehasm,(-300,-300))
                 mixer.music.play(0)
                 window.blit(lose,(100,350))
-            
+
             elif sprite.collide_rect(Player2, door2):
-                window.blit(winimg, (0,0))
-                window.blit(playerimg, (400, 250))
-                window.blit(win,(250,350))
-                level = 2
+                if suzhet == 1:
+                    window.fill(winbackground)
+
+                    suzhetproiden()
+                if suzhet != 1:
+                    window.blit(winimg, (0,0))
+                    window.blit(playerimg, (400, 250))
+                    window.blit(win,(250,350))
+                    window.blit(nosuzhetka,(230, 400))
+                    level = 2
+
+
+            if Enemy2.rect.y <= 220:
+                Enemy2.yspeed = 3
+
+            if Enemy2.rect.y >= 305:
+                Enemy2.yspeed = -3
+
+            if Enemy2.rect.x >= 650:
+                Enemy2.xspeed = -7
+
+            elif Enemy2.rect.x <= 50:
+                Enemy2.xspeed = 7
+
+
+            if Player2.rect.y == 500:
+                not_ended = False
+                window.blit(lehasm,(-300,-300))
+                mixer.music.play(0)
+                window.blit(lose,(100,350))
+            elif Player2.rect.y == -100:
+                not_ended = False
+                window.blit(lehasm,(-300,-300))
+                mixer.music.play(0)
+                window.blit(lose,(100,350))
+            elif Player2.rect.x == -10:
+                not_ended = False
+                window.blit(lehasm,(-300,-300))
+                mixer.music.play(0)
+                window.blit(lose,(100,350))
+            elif Player2.rect.x == 700:
+                not_ended = False
+                window.blit(lehasm,(-300,-300))
+                mixer.music.play(0)
+                window.blit(lose,(100,350))
+
+
             elif sprite.collide_rect(Player2, wall10):
                 not_ended = False
                 window.blit(lehasm,(-300,-300))
@@ -458,30 +585,6 @@ while run:
                 not_ended = False
                 window.blit(lehasm,(-300,-300))
                 mixer.music.play(0)
-                window.blit(lose,(100,350))
-            if Enemy2.rect.y >= 400:
-                Enemy2.yspeed = -3
-                time.delay(5)
-            elif Enemy2.rect.y <= 200:
-                Enemy2.yspeed = 3
-                time.delay(5)
-            if Enemy2.rect.x >= 650:
-                Enemy2.xspeed = -7
-                time.delay(5)
-            elif Enemy2.rect.x <= 50:
-                Enemy2.xspeed = 7
-                time.delay(5)          
-            if Player2.rect.y == 500:
-                not_ended = False
-                window.blit(lose,(250,350))
-            elif Player2.rect.y == -100:
-                not_ended = False
-                window.blit(lose,(250,350))
-            elif Player2.rect.x == -10:
-                not_ended = False
-                window.blit(lose,(250,350))
-            elif Player2.rect.x == 700:
-                not_ended = False
-                window.blit(lose,(250,350))
-        display.update()
-        timer.tick(60)
+                window.blit(lose,(100,350))                
+    display.update()
+    timer.tick(60)
