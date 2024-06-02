@@ -279,7 +279,7 @@ while run:
             elif Player.rect.x == -10:
                 not_ended = False
                 window.blit(lose,(250,350))
-            elif Player.rect.x == 850:
+            elif Player.rect.x == 800:
                 not_ended = False
                 window.blit(lose,(250,350))
 
